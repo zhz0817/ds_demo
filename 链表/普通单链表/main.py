@@ -54,29 +54,31 @@ class LinkList:
             temp = temp.next
         return -1
 
-    def remove_by_value(self, x: int):
+    def remove_by_value(self, x: int) -> int:
         if self.length == 0:
-            return
+            return 0
         if self.head.data == x:
             self.head = self.head.next
-            return
+            return 1
         pre = self.head
         cur = self.head.next
         while cur is not None:
             if cur.data == x:
                 pre.next = cur.next
                 self.length -= 1
-                break
+                return 1
             pre = cur
             cur = cur.next
+        return 0
 
-    def remove_by_index(self, x: int):
+    def remove_by_index(self, x: int) -> int:
         if x >= self.length or x < 0:
-            raise IndexError("Index out of range")
+            # raise IndexError("Index out of range")
+            return 0
         self.length -= 1
-        if 0 == x:
+        if x == 0:
             self.head = self.head.next
-            return
+            return 1
         pre = self.head
         cur = self.head.next
         index = 1
@@ -87,16 +89,18 @@ class LinkList:
             pre = cur
             cur = cur.next
             index += 1
+        return 1
 
-    def insert_by_index(self, index: int, val: int):
+    def insert_by_index(self, index: int, val: int) -> int:
         if index < 0 or index > self.length:
-            raise IndexError("Index out of range")
+            # raise IndexError("Index out of range")
+            return 0
         self.length += 1
         node = ListNode(data=val)
         if index == 0:
             node.next = self.head
             self.head = node
-            return
+            return 1
         temp = self.head
         pos = 0
         while pos + 1 < index:
@@ -104,11 +108,14 @@ class LinkList:
             pos += 1
         node.next = temp.next
         temp.next = node
-        self.length += 1
+        return 1
 
 
 if __name__ == '__main__':
     link_list = LinkList()
     for i in range(5):
         link_list.append_first(i)
-    link_list.display()
+    for i in range(5):
+        link_list.remove_by_index(0)
+    link_list.insert_by_index(0, 1)
+    print(link_list.get_length())

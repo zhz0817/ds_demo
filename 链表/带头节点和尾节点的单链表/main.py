@@ -6,46 +6,44 @@ class ListNode:
 
 class LinkList:
     def __init__(self):
-        self.head = None
+        self.head = ListNode(-1)
+        self.tail = self.head
         self.length = 0
 
     def clear(self):
-        self.head = None
+        self.head = ListNode(-1)
+        self.tail = self.head
         self.length = 0
-        # self.__init__() #因为构造函数会返回对象
 
     def is_empty(self):
         return self.length == 0
 
-    def append_first(self, data):
+    def append_last(self, data):
         node = ListNode(data=data)
-        if self.head is None:
-            self.head = node
-        else:
-            node.next = self.head
-            self.head = node
+        self.tail.next = node
+        self.tail = self.tail.next
         self.length += 1
 
     def get_length(self):
         return self.length
 
     def get_value_by_index(self, index) -> int:
-        temp = self.head
         if index < 0 or index >= self.length:
             raise IndexError("Index out of")
+        temp = self.head.next
         while index > 0 and temp is not None:  # temp is not None 可以不写
             temp = temp.next
             index -= 1
         return temp.data
 
     def display(self):
-        temp = self.head
+        temp = self.head.next
         while temp is not None:
             print(temp.data)
             temp = temp.next
 
     def index_of(self, x: int) -> int:
-        temp = self.head
+        temp = self.head.next
         ans = 0
         while temp is not None:
             if temp.data == x:
@@ -57,27 +55,23 @@ class LinkList:
     def remove_by_value(self, x: int):
         if self.length == 0:
             return
-        if self.head.data == x:
-            self.head = self.head.next
-            return
         pre = self.head
         cur = self.head.next
         while cur is not None:
             if cur.data == x:
                 pre.next = cur.next
+                self.length -= 1
                 break
             pre = cur
             cur = cur.next
 
     def remove_by_index(self, x: int):
-        if x >= self.length:
+        if x >= self.length or x < 0:
             raise IndexError("Index out of range")
-        if 0 == x:
-            self.head = self.head.next
-            return
+        self.length -= 1
         pre = self.head
         cur = self.head.next
-        index = 1
+        index = 0
         while cur is not None:
             if index == x:
                 pre.next = cur.next
@@ -90,20 +84,20 @@ class LinkList:
         if index < 0 or index > self.length + 1:
             raise IndexError("Index out of range")
         node = ListNode(data=val)
-        if index == 0:
-            node.next = self.head
-            self.head = node
-            return
         temp = self.head
         pos = 0
-        while pos+1 < index:
+        while pos < index:
             temp = temp.next
+            pos += 1
         node.next = temp.next
         temp.next = node
+        self.length += 1
 
 
 if __name__ == '__main__':
     link_list = LinkList()
     for i in range(5):
-        link_list.append_first(i)
+        link_list.append_last(i)
+    link_list.insert_by_index(5, 5)
+    link_list.remove_by_index(5)
     link_list.display()

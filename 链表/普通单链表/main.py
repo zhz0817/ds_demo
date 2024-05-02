@@ -30,9 +30,9 @@ class LinkList:
         return self.length
 
     def get_value_by_index(self, index) -> int:
-        temp = self.head
         if index < 0 or index >= self.length:
             raise IndexError("Index out of")
+        temp = self.head
         while index > 0 and temp is not None:  # temp is not None 可以不写
             temp = temp.next
             index -= 1
@@ -65,13 +65,15 @@ class LinkList:
         while cur is not None:
             if cur.data == x:
                 pre.next = cur.next
+                self.length -= 1
                 break
             pre = cur
             cur = cur.next
 
     def remove_by_index(self, x: int):
-        if x >= self.length:
+        if x >= self.length or x < 0:
             raise IndexError("Index out of range")
+        self.length -= 1
         if 0 == x:
             self.head = self.head.next
             return
@@ -96,10 +98,12 @@ class LinkList:
             return
         temp = self.head
         pos = 0
-        while pos+1 < index:
+        while pos + 1 < index:
             temp = temp.next
+            pos += 1
         node.next = temp.next
         temp.next = node
+        self.length += 1
 
 
 if __name__ == '__main__':

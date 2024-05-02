@@ -89,8 +89,9 @@ class LinkList:
             index += 1
 
     def insert_by_index(self, index: int, val: int):
-        if index < 0 or index > self.length + 1:
+        if index < 0 or index > self.length:
             raise IndexError("Index out of range")
+        self.length += 1
         node = ListNode(data=val)
         if index == 0:
             node.next = self.head

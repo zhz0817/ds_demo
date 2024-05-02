@@ -24,7 +24,7 @@ class LinkList:
         self.tail = self.tail.next
         self.length += 1
 
-    def get_length(self):
+    def get_length(self) -> int:
         return self.length
 
     def get_value_by_index(self, index) -> int:
@@ -52,18 +52,19 @@ class LinkList:
             temp = temp.next
         return -1
 
-    def remove_by_value(self, x: int):
+    def remove_by_value(self, x: int) -> int:
         if self.length == 0:
-            return
+            return 0
         pre = self.head
         cur = self.head.next
         while cur is not None:
             if cur.data == x:
                 pre.next = cur.next
                 self.length -= 1
-                break
+                return 1
             pre = cur
             cur = cur.next
+        return 0
 
     def remove_by_index(self, x: int):
         if x >= self.length or x < 0:
@@ -81,7 +82,7 @@ class LinkList:
             index += 1
 
     def insert_by_index(self, index: int, val: int):
-        if index < 0 or index > self.length + 1:
+        if index < 0 or index > self.length:
             raise IndexError("Index out of range")
         node = ListNode(data=val)
         temp = self.head
@@ -98,6 +99,5 @@ if __name__ == '__main__':
     link_list = LinkList()
     for i in range(5):
         link_list.append_last(i)
-    link_list.insert_by_index(5, 5)
-    link_list.remove_by_index(5)
+    link_list.insert_by_index(1, 5)
     link_list.display()
